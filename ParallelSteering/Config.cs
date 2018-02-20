@@ -2,6 +2,6 @@
 {
 	public static class Config
 	{
-		public const float PIXELS_PER_METER = 100;
+		public const float PIXELS_PER_METER = 5;
 	}
 }

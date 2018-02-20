@@ -5,10 +5,12 @@ namespace ParallelSteering
 {
 	public class Boid : Transformable, Drawable
 	{
-		private const float HALF_SIZE = 5f;
+		private const float HALF_SIZE = 1;
 
+		public Vector2f WanderTarget { get; set; }
 		public Vector2f Velocity { get; set; }
 		public ConvexShape Shape { get; private set; }
+		public float MaxVelocity { get; set; }
 
 		public Boid()
 		{
