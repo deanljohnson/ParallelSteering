@@ -20,7 +20,7 @@ namespace ParallelSteering
 			Controller control = new Controller(Config.BOID_COUNT, window);
 			Clock clock = new Clock();
 			Clock updateClock = new Clock();
-			FPSAverager ufpsAverage = new FPSAverager(10);
+			FPSAverager ufpsAverage = new FPSAverager(30);
 
 			float elapsedFrameTime = 0f;
 
