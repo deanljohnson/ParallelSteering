@@ -17,7 +17,7 @@ namespace ParallelSteering
 			window.SetFramerateLimit(60);
 			window.Closed += OnWindowClose;
 
-			Controller control = new Controller(400, window);
+			Controller control = new Controller(Config.BOID_COUNT, window);
 			Clock clock = new Clock();
 			Clock updateClock = new Clock();
 			FPSAverager ufpsAverage = new FPSAverager(10);
