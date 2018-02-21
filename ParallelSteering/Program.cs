@@ -17,22 +17,25 @@ namespace ParallelSteering
 			window.SetFramerateLimit(60);
 			window.Closed += OnWindowClose;
 
-			Controller control = new Controller(100, window);
+			Controller control = new Controller(400, window);
 			Clock clock = new Clock();
 			Clock updateClock = new Clock();
 			FPSAverager ufpsAverage = new FPSAverager(10);
+
+			float elapsedFrameTime = 0f;
 
 			while (!Closed)
 			{
 				window.DispatchEvents();
 
 				updateClock.Restart();
-				control.Update(clock.ElapsedTime.AsSeconds());
+				control.Update(elapsedFrameTime);
 				int fps = (int) Math.Floor(1f / updateClock.ElapsedTime.AsSeconds());
 				ufpsAverage.PushFPS(fps);
 				window.SetTitle($"Parallel Steering - {ufpsAverage.AverageFPS} UPS");
+
+				elapsedFrameTime = clock.ElapsedTime.AsSeconds();
 				clock.Restart();
-				updateClock.Restart();
 
 				window.Clear(Color.Black);
 
