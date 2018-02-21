@@ -13,6 +13,8 @@ namespace ParallelSteering
 		public const float WANDER_CIRCLE_RADIUS = 5f;
 		public const float WANDER_CIRCLE_DISTANCE = 30f;
 		public const float WANDER_ANGLE_CHANGE = 1.5f;
+		public const float SEPARATION_RADIUS = 10f;
+		public const float COHESION_RADIUS = 10f;
 
 		public static Vector2f Seek(Boid self, Vector2f target)
 		{
@@ -63,13 +65,42 @@ namespace ParallelSteering
 
 		public static Vector2f Cohesion(Boid self, IList<Boid> others)
 		{
+			int count = 0;
 			Vector2f avgPos = new Vector2f();
+
 			for (int i = 0; i < others.Count; i++)
 			{
-				avgPos = avgPos + others[i].Position;
+				if ((self.Position - others[i].Position).SquaredLength()
+				    < COHESION_RADIUS * COHESION_RADIUS)
+				{
+					avgPos += others[i].Position;
+					count++;
+				}
 			}
 
+			avgPos = avgPos / count;
+
 			return Seek(self, avgPos);
+		}
+
+		public static Vector2f Separation(Boid self, IList<Boid> others)
+		{
+			int count = 0;
+			Vector2f avgPos = new Vector2f();
+
+			for (int i = 0; i < others.Count; i++)
+			{
+				if ((self.Position - others[i].Position).SquaredLength() 
+					< SEPARATION_RADIUS * SEPARATION_RADIUS)
+				{
+					avgPos += others[i].Position;
+					count++;
+				}
+			}
+
+			avgPos = avgPos / count;
+
+			return Flee(self, avgPos);
 		}
 	}
 }
