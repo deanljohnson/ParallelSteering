@@ -16,7 +16,7 @@ namespace ParallelSteering
 
 		public static Vector2f Seek(Boid self, Vector2f target)
 		{
-			return (target - self.Position).Normalized() * self.MaxVelocity;
+			return (target - self.Position).Normalized();
 		}
 
 		public static Vector2f Flee(Boid self, Vector2f target)
