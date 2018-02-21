@@ -101,6 +101,7 @@
     <Compile Include="Boid.cs" />
     <Compile Include="Config.cs" />
     <Compile Include="Controller.cs" />
+    <Compile Include="FPSAverager.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RenderingSystem.cs" />

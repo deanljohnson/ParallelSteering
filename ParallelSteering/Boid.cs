@@ -3,7 +3,7 @@ using SFML.System;
 
 namespace ParallelSteering
 {
-	public class Boid : Transformable, Drawable
+	public class Boid : Transformable
 	{
 		private const float HALF_SIZE = 1;
 
@@ -16,17 +16,11 @@ namespace ParallelSteering
 		{
 			Shape = new ConvexShape(3);
 
-			Shape.SetPoint(0, new Vector2f(0, -HALF_SIZE));
+			Shape.SetPoint(0, new Vector2f(HALF_SIZE, 0));
 			Shape.SetPoint(1, new Vector2f(-HALF_SIZE, HALF_SIZE));
-			Shape.SetPoint(2, new Vector2f(HALF_SIZE, HALF_SIZE));
+			Shape.SetPoint(2, new Vector2f(-HALF_SIZE, -HALF_SIZE));
 
 			Position = new Vector2f(50, 50);
-		}
-
-		public void Draw(RenderTarget target, RenderStates states)
-		{
-			states.Transform *= Transform;
-			Shape.Draw(target, states);
 		}
 	}
 }

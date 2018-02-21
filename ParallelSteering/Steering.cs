@@ -14,7 +14,7 @@ namespace ParallelSteering
 		public const float WANDER_CIRCLE_DISTANCE = 30f;
 		public const float WANDER_ANGLE_CHANGE = 1.5f;
 		public const float SEPARATION_RADIUS = 10f;
-		public const float COHESION_RADIUS = 10f;
+		public const float COHESION_RADIUS = 200f;
 
 		public static Vector2f Seek(Boid self, Vector2f target)
 		{

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using SFML.Graphics;
 using SFML.System;
 
@@ -23,6 +24,8 @@ namespace ParallelSteering
 				Vector2f p0 = m_Boids[i].Shape.GetPoint(0);
 				Vector2f p1 = m_Boids[i].Shape.GetPoint(1);
 				Vector2f p2 = m_Boids[i].Shape.GetPoint(2);
+
+				m_Boids[i].Rotation = (float) (m_Boids[i].Velocity.Angle() * (180f / Math.PI));
 
 				m_VertArray[(uint)(i * 3)] = new Vertex(m_Boids[i].Transform.TransformPoint(p0));
 				m_VertArray[(uint)(i * 3) + 1] = new Vertex(m_Boids[i].Transform.TransformPoint(p1));

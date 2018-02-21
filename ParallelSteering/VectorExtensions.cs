@@ -22,5 +22,10 @@ namespace ParallelSteering
 				return new Vector2f(1,0);
 			return v / l;
 		}
+
+		public static float Angle(this Vector2f v)
+		{
+			return (float) Math.Atan2(v.Y, v.X);
+		}
 	}
 }

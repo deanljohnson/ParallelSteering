@@ -16,8 +16,12 @@ namespace ParallelSteering
 		{
 			for (int i = 0; i < m_Boids.Count; i++)
 			{
-				m_Boids[i].Velocity = Steering.Wander(m_Boids[i]) * m_Boids[i].MaxVelocity;
-				//m_Boids[i].Velocity = Steering.Seek(m_Boids[i], new Vector2f(0,0));
+				Vector2f vel = new Vector2f();
+				vel += Steering.Wander(m_Boids[i]) * 50;
+				vel += Steering.Align(m_Boids[i], m_Boids) * 5;
+				vel += Steering.Cohesion(m_Boids[i], m_Boids);
+				vel += Steering.Separation(m_Boids[i], m_Boids);
+				m_Boids[i].Velocity = vel.Normalized() * m_Boids[i].MaxVelocity;
 			}
 		}
 	}
