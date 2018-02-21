@@ -28,6 +28,12 @@ namespace ParallelSteering
 			{
 				window.DispatchEvents();
 
+				if (Closed)
+				{
+					control.Dispose();
+					break;
+				}
+
 				updateClock.Restart();
 				control.Update(elapsedFrameTime);
 				int fps = (int) Math.Floor(1f / updateClock.ElapsedTime.AsSeconds());

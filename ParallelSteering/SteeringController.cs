@@ -5,7 +5,7 @@ using SFML.System;
 
 namespace ParallelSteering
 {
-	public class SteeringController
+	public class SteeringController : IDisposable
 	{
 		private readonly List<Boid> m_Boids;
 		private readonly List<Vector2f> m_NextVelocities;
@@ -76,6 +76,14 @@ namespace ParallelSteering
 				}
 
 				endSignal.Set();
+			}
+		}
+
+		public void Dispose()
+		{
+			foreach (var thread in m_Threads)
+			{
+				thread.Abort();
 			}
 		}
 	}

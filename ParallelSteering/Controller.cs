@@ -5,7 +5,7 @@ using SFML.System;
 
 namespace ParallelSteering
 {
-	public class Controller
+	public class Controller : IDisposable
 	{
 		private readonly List<Boid> m_Boids = new List<Boid>();
 
@@ -55,6 +55,11 @@ namespace ParallelSteering
 			RenderStates states = RenderStates.Default;
 			states.Transform.Scale(Config.PIXELS_PER_METER, Config.PIXELS_PER_METER);
 			m_Renderer.Draw(m_RenderTarget, states);
+		}
+
+		public void Dispose()
+		{
+			m_Steering?.Dispose();
 		}
 	}
 }
