@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading;
 using SFML.System;
+using SFQuadTree;
 
 namespace ParallelSteering
 {
@@ -12,10 +13,14 @@ namespace ParallelSteering
 		private readonly ManualResetEvent m_StartSignal;
 		private readonly List<AutoResetEvent> m_EndSignals;
 		private readonly List<Thread> m_Threads;
+		private readonly QuadTree m_QuadTree;
 
-		public SteeringController(List<Boid> boids)
+		public SteeringController(List<Boid> boids, QuadTree tree)
 		{
 			m_Boids = boids;
+
+			m_QuadTree = tree;
+
 			m_NextVelocities = new List<Vector2f>(boids.Count);
 			for (int i = 0; i < boids.Count; i++)
 			{

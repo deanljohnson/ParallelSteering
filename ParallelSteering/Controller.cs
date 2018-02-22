@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using SFML.Graphics;
 using SFML.System;
+using SFQuadTree;
 
 namespace ParallelSteering
 {
@@ -12,9 +13,16 @@ namespace ParallelSteering
 		private readonly RenderTarget m_RenderTarget;
 		private readonly RenderingSystem m_Renderer;
 		private readonly SteeringController m_Steering;
+		private readonly QuadTree m_QuadTree;
 
 		public Controller(int boidCount, RenderTarget target)
 		{
+			m_RenderTarget = target;
+
+			m_QuadTree = new QuadTree(new FloatRect(0, 0,
+				(m_RenderTarget.DefaultView.Size.X / Config.PIXELS_PER_METER),
+				(m_RenderTarget.DefaultView.Size.Y / Config.PIXELS_PER_METER)));
+
 			Random r = new Random();
 			for (int i = 0; i < boidCount; i++)
 			{
@@ -23,15 +31,17 @@ namespace ParallelSteering
 				b.Velocity = new Vector2f((float) (r.NextDouble() - r.NextDouble()), (float) (r.NextDouble() - r.NextDouble()));
 				b.MaxVelocity = 20f;
 				m_Boids.Add(b);
+
+				m_QuadTree.Add(b);
 			}
 
 			m_Renderer = new RenderingSystem(m_Boids);
-			m_Steering = new SteeringController(m_Boids);
-			m_RenderTarget = target;
+			m_Steering = new SteeringController(m_Boids, m_QuadTree);
 		}
 
 		public void Update(float deltaTime)
 		{
+			m_QuadTree.Update();
 			m_Steering.Update();
 
 			for (int i = 0; i < m_Boids.Count; i++)
