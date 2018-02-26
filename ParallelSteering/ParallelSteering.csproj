@@ -125,7 +125,11 @@
     <Content Include="Libraries\openal32.dll" />
     <Content Include="Libraries\OpenTK.Compatibility.dll" />
     <Content Include="Libraries\OpenTK.dll" />
+    <Content Include="Libraries\PriorityQueue.dll" />
     <Content Include="Libraries\QuadTree.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>copy "$(ProjectDir)\Libraries\*.*" "$(TargetDir)"</PostBuildEvent>
+  </PropertyGroup>
 </Project>
