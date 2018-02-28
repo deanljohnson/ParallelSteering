@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using SFML.Graphics;
 using SFML.System;
 
 namespace ParallelSteering
@@ -63,7 +64,8 @@ namespace ParallelSteering
 			return avgVel.Normalized();
 		}
 
-		public static Vector2f Cohesion(Boid self, IList<Boid> others)
+		public static Vector2f Cohesion<T>(Boid self, IList<T> others)
+			where T : Transformable
 		{
 			int count = 0;
 			Vector2f avgPos = new Vector2f();
@@ -83,7 +85,8 @@ namespace ParallelSteering
 			return Seek(self, avgPos);
 		}
 
-		public static Vector2f Separation(Boid self, IList<Boid> others)
+		public static Vector2f Separation<T>(Boid self, IList<T> others)
+			where T : Transformable
 		{
 			int count = 0;
 			Vector2f avgPos = new Vector2f();

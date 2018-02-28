@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
+using SFML.Graphics;
 using SFML.System;
 using SFQuadTree;
 
@@ -13,9 +15,9 @@ namespace ParallelSteering
 		private readonly ManualResetEvent m_StartSignal;
 		private readonly List<AutoResetEvent> m_EndSignals;
 		private readonly List<Thread> m_Threads;
-		private readonly QuadTree m_QuadTree;
+		private readonly QuadTree<Boid> m_QuadTree;
 
-		public SteeringController(List<Boid> boids, QuadTree tree)
+		public SteeringController(List<Boid> boids, QuadTree<Boid> tree)
 		{
 			m_Boids = boids;
 
@@ -57,7 +59,7 @@ namespace ParallelSteering
 			{
 				m_EndSignals[i].WaitOne();
 			}
-			
+
 			for (int i = 0; i < m_Boids.Count; i++)
 			{
 				m_Boids[i].Velocity = m_NextVelocities[i];
@@ -70,14 +72,19 @@ namespace ParallelSteering
 			{
 				startSignal.WaitOne();
 
+				List<Boid> inRangeBoids = new List<Boid>();
 				for (int i = start; i < start + count; i++)
 				{
+					m_QuadTree.GetObjectsInRange(m_Boids[i].Position, Steering.COHESION_RADIUS, inRangeBoids);
+
 					Vector2f vel = new Vector2f();
 					vel += Steering.Wander(m_Boids[i]) * 50;
-					vel += Steering.Align(m_Boids[i], m_Boids) * 5;
-					vel += Steering.Cohesion(m_Boids[i], m_Boids);
-					vel += Steering.Separation(m_Boids[i], m_Boids);
+					vel += Steering.Align(m_Boids[i], inRangeBoids) * 5;
+					vel += Steering.Cohesion(m_Boids[i], inRangeBoids);
+					vel += Steering.Separation(m_Boids[i], inRangeBoids);
 					m_NextVelocities[i] = vel.Normalized() * m_Boids[i].MaxVelocity;
+
+					inRangeBoids.Clear();
 				}
 
 				endSignal.Set();

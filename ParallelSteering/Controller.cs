@@ -13,13 +13,13 @@ namespace ParallelSteering
 		private readonly RenderTarget m_RenderTarget;
 		private readonly RenderingSystem m_Renderer;
 		private readonly SteeringController m_Steering;
-		private readonly QuadTree m_QuadTree;
+		private readonly QuadTree<Boid> m_QuadTree;
 
 		public Controller(int boidCount, RenderTarget target)
 		{
 			m_RenderTarget = target;
 
-			m_QuadTree = new QuadTree(new FloatRect(0, 0,
+			m_QuadTree = new QuadTree<Boid>(new FloatRect(0, 0,
 				(m_RenderTarget.DefaultView.Size.X / Config.PIXELS_PER_METER),
 				(m_RenderTarget.DefaultView.Size.Y / Config.PIXELS_PER_METER)));
 
