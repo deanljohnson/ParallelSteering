@@ -19,7 +19,7 @@ namespace ParallelSteering
 		{
 			float l = v.Length();
 			if (float.IsNaN(l) || l == 0f)
-				return new Vector2f(1,0);
+				return new Vector2f(0,0);
 			return v / l;
 		}
 

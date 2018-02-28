@@ -19,15 +19,20 @@ namespace ParallelSteering
 		{
 			m_RenderTarget = target;
 
+			float width = (m_RenderTarget.DefaultView.Size.X / Config.PIXELS_PER_METER);
+			float height = (m_RenderTarget.DefaultView.Size.Y / Config.PIXELS_PER_METER);
+
+			float maxD = Math.Max(width, height);
+
 			m_QuadTree = new QuadTree<Boid>(new FloatRect(0, 0,
-				(m_RenderTarget.DefaultView.Size.X / Config.PIXELS_PER_METER),
-				(m_RenderTarget.DefaultView.Size.Y / Config.PIXELS_PER_METER)));
+				maxD,
+				maxD));
 
 			Random r = new Random();
 			for (int i = 0; i < boidCount; i++)
 			{
 				Boid b = new Boid();
-				b.Position = new Vector2f(i * 5,0) + b.Position;
+				b.Position = new Vector2f((float) (r.NextDouble() * width), (float) (r.NextDouble() * height));
 				b.Velocity = new Vector2f((float) (r.NextDouble() - r.NextDouble()), (float) (r.NextDouble() - r.NextDouble()));
 				b.MaxVelocity = 20f;
 				m_Boids.Add(b);
