@@ -55,55 +55,54 @@ namespace ParallelSteering
 
 		public static Vector2f Align(Boid self, IList<Boid> others)
 		{
-			Vector2f avgVel = new Vector2f();
+			float x = 0, y = 0;
 			for (int i = 0; i < others.Count; i++)
 			{
-				avgVel = avgVel + others[i].Velocity;
+				x += others[i].Velocity.X;
+				y += others[i].Velocity.Y;
 			}
 
-			return avgVel.Normalized();
+			return new Vector2f(x,y).Normalized();
 		}
 
 		public static Vector2f Cohesion<T>(Boid self, IList<T> others)
 			where T : Transformable
 		{
 			int count = 0;
-			Vector2f avgPos = new Vector2f();
+			float x = 0, y = 0;
 
 			for (int i = 0; i < others.Count; i++)
 			{
 				if ((self.Position - others[i].Position).SquaredLength()
 				    < COHESION_RADIUS * COHESION_RADIUS)
 				{
-					avgPos += others[i].Position;
+					x += others[i].Position.X;
+					y += others[i].Position.Y;
 					count++;
 				}
 			}
 
-			avgPos = avgPos / count;
-
-			return Seek(self, avgPos);
+			return Seek(self, new Vector2f(x / count, y / count));
 		}
 
 		public static Vector2f Separation<T>(Boid self, IList<T> others)
 			where T : Transformable
 		{
 			int count = 0;
-			Vector2f avgPos = new Vector2f();
+			float x = 0, y = 0;
 
 			for (int i = 0; i < others.Count; i++)
 			{
 				if ((self.Position - others[i].Position).SquaredLength() 
 					< SEPARATION_RADIUS * SEPARATION_RADIUS)
 				{
-					avgPos += others[i].Position;
+					x += others[i].Position.X;
+					y += others[i].Position.Y;
 					count++;
 				}
 			}
 
-			avgPos = avgPos / count;
-
-			return Flee(self, avgPos);
+			return Flee(self, new Vector2f(x / count, y / count));
 		}
 	}
 }
