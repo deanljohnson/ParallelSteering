@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using ParallelSteering.Rendering;
 using SFML.Graphics;
 using SFML.System;
 using SFQuadTree;
@@ -15,7 +16,7 @@ namespace ParallelSteering
 		private readonly SteeringController m_Steering;
 		private readonly QuadTree<Boid> m_QuadTree;
 
-		public Controller(int boidCount, RenderTarget target)
+		public Controller(int boidCount, RenderWindow target)
 		{
 			m_RenderTarget = target;
 
@@ -40,7 +41,9 @@ namespace ParallelSteering
 				m_QuadTree.Add(b);
 			}
 
-			m_Renderer = new RenderingSystem(m_Boids);
+			m_Renderer = new RenderingSystem();
+			m_Renderer.AddRenderJob(new QuadTreeRenderingJob<Boid>(m_QuadTree));
+			m_Renderer.AddRenderJob(new BoidRenderingJob(m_Boids));
 			m_Steering = new SteeringController(m_Boids, m_QuadTree);
 		}
 
