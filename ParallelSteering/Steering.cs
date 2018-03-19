@@ -7,7 +7,7 @@ namespace ParallelSteering
 {
 	public class Steering
 	{
-		private static readonly Random Random = new Random();
+		private static readonly Random Random = new Random(Config.SEED);
 		private static float m_WanderAngle;
 
 		public const float ARRIVE_RADIUS = 10f;

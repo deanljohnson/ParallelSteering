@@ -29,7 +29,7 @@ namespace ParallelSteering
 				maxD,
 				maxD));
 
-			Random r = new Random();
+			Random r = new Random(Config.SEED);
 			for (int i = 0; i < boidCount; i++)
 			{
 				Boid b = new Boid();
