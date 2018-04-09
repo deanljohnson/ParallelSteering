@@ -9,6 +9,7 @@ namespace ParallelSteering
 {
 	public class Controller : IDisposable
 	{
+		private const float FIXED_DELTA_TIME = (1f / 60f);
 		private readonly List<Boid> m_Boids = new List<Boid>();
 
 		private readonly RenderTarget m_RenderTarget;
@@ -55,16 +56,16 @@ namespace ParallelSteering
 			for (int i = 0; i < m_Boids.Count; i++)
 			{
 				Boid b = m_Boids[i];
-				b.Position = b.Position + (b.Velocity * deltaTime);
+				b.Position = b.Position + (b.Velocity * FIXED_DELTA_TIME);
 
-				if (b.Position.X < 0)
-					b.Position = new Vector2f(b.Position.X + (m_RenderTarget.DefaultView.Size.X / Config.PIXELS_PER_METER), b.Position.Y);
-				if (b.Position.X > m_RenderTarget.DefaultView.Size.X / Config.PIXELS_PER_METER)
-					b.Position = new Vector2f(b.Position.X - (m_RenderTarget.DefaultView.Size.X / Config.PIXELS_PER_METER), b.Position.Y);
-				if (b.Position.Y < 0)
-					b.Position = new Vector2f(b.Position.X, b.Position.Y + (m_RenderTarget.DefaultView.Size.Y / Config.PIXELS_PER_METER));
-				if (b.Position.Y > m_RenderTarget.DefaultView.Size.Y / Config.PIXELS_PER_METER)
-					b.Position = new Vector2f(b.Position.X, b.Position.Y - (m_RenderTarget.DefaultView.Size.Y / Config.PIXELS_PER_METER));
+				if (b.Position.X <= 0)
+					b.Position = new Vector2f(b.Position.X + (m_RenderTarget.DefaultView.Size.X / Config.PIXELS_PER_METER) - 1, b.Position.Y);
+				if (b.Position.X >= m_RenderTarget.DefaultView.Size.X / Config.PIXELS_PER_METER)
+					b.Position = new Vector2f(b.Position.X - (m_RenderTarget.DefaultView.Size.X / Config.PIXELS_PER_METER) + 1, b.Position.Y);
+				if (b.Position.Y <= 0)
+					b.Position = new Vector2f(b.Position.X, b.Position.Y + (m_RenderTarget.DefaultView.Size.Y / Config.PIXELS_PER_METER) - 1);
+				if (b.Position.Y >= m_RenderTarget.DefaultView.Size.Y / Config.PIXELS_PER_METER)
+					b.Position = new Vector2f(b.Position.X, b.Position.Y - (m_RenderTarget.DefaultView.Size.Y / Config.PIXELS_PER_METER) + 1);
 			}
 		}
 

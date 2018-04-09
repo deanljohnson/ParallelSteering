@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
+using QuadTree;
 using SFML.Graphics;
 using SFML.System;
 using SFQuadTree;
@@ -72,16 +73,18 @@ namespace ParallelSteering
 			{
 				startSignal.WaitOne();
 
-				List<Boid> inRangeBoids = new List<Boid>();
+				Random random = new Random(Config.SEED);
+
+				MaxPriorityQueue<Boid> inRangeBoids = new MaxPriorityQueue<Boid>();
 				for (int i = start; i < start + count; i++)
 				{
-					m_QuadTree.GetObjectsInRange(m_Boids[i].Position, Steering.COHESION_RADIUS, inRangeBoids);
+					m_QuadTree.GetKClosestObjects(m_Boids[i].Position, 30, Steering.COHESION_RADIUS, inRangeBoids);
 
 					Vector2f vel = new Vector2f();
-					vel += Steering.Wander(m_Boids[i]) * 50;
-					vel += Steering.Align(m_Boids[i], inRangeBoids) * 5;
-					vel += Steering.Cohesion(m_Boids[i], inRangeBoids);
-					vel += Steering.Separation(m_Boids[i], inRangeBoids);
+					vel += Steering.Wander(m_Boids[i], random) * 50;
+					vel += Steering.Align(m_Boids[i], inRangeBoids.ToList()) * 5;
+					vel += Steering.Cohesion(m_Boids[i], inRangeBoids.ToList());
+					vel += Steering.Separation(m_Boids[i], inRangeBoids.ToList());
 					m_NextVelocities[i] = vel.Normalized() * m_Boids[i].MaxVelocity;
 
 					inRangeBoids.Clear();

@@ -7,7 +7,6 @@ namespace ParallelSteering
 {
 	public class Steering
 	{
-		private static readonly Random Random = new Random(Config.SEED);
 		private static float m_WanderAngle;
 
 		public const float ARRIVE_RADIUS = 10f;
@@ -40,7 +39,7 @@ namespace ParallelSteering
 			return dif.Normalized() * self.MaxVelocity;
 		}
 
-		public static Vector2f Wander(Boid self)
+		public static Vector2f Wander(Boid self, Random random)
 		{
 			Vector2f normalVel = self.Velocity.Normalized();
 			Vector2f circleCenter = normalVel * WANDER_CIRCLE_DISTANCE;
@@ -48,7 +47,7 @@ namespace ParallelSteering
 				(float) Math.Cos(m_WanderAngle) * WANDER_CIRCLE_RADIUS, 
 				(float) Math.Sin(m_WanderAngle) * WANDER_CIRCLE_RADIUS);
 
-			m_WanderAngle += (float)(Random.NextDouble() * WANDER_ANGLE_CHANGE - WANDER_ANGLE_CHANGE * .5f);
+			m_WanderAngle += (float)(random.NextDouble() * WANDER_ANGLE_CHANGE - WANDER_ANGLE_CHANGE * .5f);
 
 			return (circleCenter + displacement).Normalized();
 		}
