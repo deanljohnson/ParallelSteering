@@ -18,7 +18,6 @@ def readInData():
 		data.append(readInDataFile(sys.argv[i]))
 	return data
 
-
 data_to_plot = readInData()
 
 # Create a figure instance
