@@ -12,10 +12,13 @@ namespace ParallelSteering
 	{
 		private static bool Closed;
 		private static readonly List<double> Timings = new List<double>();
-		private const string OUTPUT_TEXT_FILE = "out.txt";
+		private static string m_OutputTextFile = "out.txt";
+		private static double m_MinutesToExecute = -1;
 
 		static void Main(string[] args)
 		{
+			ParseCommandLineArguments(args);
+
 			VideoMode mode = new VideoMode(920, 920);
 			RenderWindow window = new RenderWindow(mode, "Parallel Steering");
 			
@@ -28,15 +31,17 @@ namespace ParallelSteering
 			FPSAverager ufpsAverage = new FPSAverager(30);
 
 			float elapsedFrameTime = 0f;
+			float totalElapsedTime = 0f;
 
 			while (!Closed)
 			{
 				window.DispatchEvents();
 
-				if (Closed)
+				if (Closed ||
+					(m_MinutesToExecute > 0 && totalElapsedTime > m_MinutesToExecute * 60))
 				{
 					string output = string.Join(",", Timings.Select(t => t.ToString("N3")));
-					File.WriteAllText(OUTPUT_TEXT_FILE, output);
+					File.WriteAllText(m_OutputTextFile, output);
 					break;
 				}
 
@@ -48,6 +53,7 @@ namespace ParallelSteering
 				window.SetTitle($"Parallel Steering - {ufpsAverage.AverageFPS} UPS");
 
 				elapsedFrameTime = clock.ElapsedTime.AsSeconds();
+				totalElapsedTime += elapsedFrameTime;
 				clock.Restart();
 
 				window.Clear(Color.Black);
@@ -79,6 +85,23 @@ namespace ParallelSteering
 				   $"\t90%: {Statistics.Percentile(Timings, .9, true):N3}" +
 				   $"\t99%: {Statistics.Percentile(Timings, .99, true):N3}" +
 				   $"\tMax: {Timings[Timings.Count - 1]:N3}";
+		}
+
+		private static void ParseCommandLineArguments(string[] args)
+		{
+			for (int i = 0; i < args.Length; i++)
+			{
+				if (args[i] == "-t")
+				{
+					m_MinutesToExecute = float.Parse(args[i + 1]);
+					i++;
+				}
+				else if (args[i] == "-o")
+				{
+					m_OutputTextFile = args[i + 1];
+					i++;
+				}
+			}
 		}
 
 		private static void OnWindowClose(object sender, EventArgs e)
