@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using SFML.Graphics;
 using SFML.System;
 using SFML.Window;
@@ -10,6 +12,7 @@ namespace ParallelSteering
 	{
 		private static bool Closed;
 		private static readonly List<double> Timings = new List<double>();
+		private const string OUTPUT_TEXT_FILE = "out.txt";
 
 		static void Main(string[] args)
 		{
@@ -32,6 +35,8 @@ namespace ParallelSteering
 
 				if (Closed)
 				{
+					string output = string.Join(",", Timings.Select(t => t.ToString("N3")));
+					File.WriteAllText(OUTPUT_TEXT_FILE, output);
 					break;
 				}
 
