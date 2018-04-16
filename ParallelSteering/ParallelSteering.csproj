@@ -117,6 +117,7 @@
     <Compile Include="Rendering\QuadTreeRenderingJob.cs" />
     <Compile Include="Rendering\RenderJob.cs" />
     <Compile Include="Rendering\RenderingSystem.cs" />
+    <Compile Include="Statistics.cs" />
     <Compile Include="Steering.cs" />
     <Compile Include="SteeringController.cs" />
     <Compile Include="VectorExtensions.cs" />

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using SFML.Graphics;
 using SFML.System;
 using SFML.Window;
@@ -8,6 +9,7 @@ namespace ParallelSteering
 	class Program
 	{
 		private static bool Closed;
+		private static readonly List<double> Timings = new List<double>();
 
 		static void Main(string[] args)
 		{
@@ -35,8 +37,9 @@ namespace ParallelSteering
 
 				updateClock.Restart();
 				control.Update(elapsedFrameTime);
-				int fps = (int) Math.Floor(1f / updateClock.ElapsedTime.AsSeconds());
-				ufpsAverage.PushFPS(fps);
+				double fps = 1f / updateClock.ElapsedTime.AsSeconds();
+				Timings.Add(fps);
+				ufpsAverage.PushFPS((int)Math.Floor(fps));
 				window.SetTitle($"Parallel Steering - {ufpsAverage.AverageFPS} UPS");
 
 				elapsedFrameTime = clock.ElapsedTime.AsSeconds();
@@ -47,7 +50,30 @@ namespace ParallelSteering
 				control.Render();
 
 				window.Display();
+
+				OutputStatsToConsole();
 			}
+		}
+
+		private static void OutputStatsToConsole()
+		{
+			if (Timings.Count <= 1)
+				return;
+
+			Timings.Sort();
+			Console.WriteLine(GetStatisticsOutput());
+		}
+
+		private static string GetStatisticsOutput()
+		{
+			Timings.Sort();
+			return $"Threads: {Config.THREAD_COUNT}" +
+				   $"\tMin: {Timings[1]:N3}" +
+				   $"\t50%: {Statistics.Percentile(Timings, .5, true):N3}" +
+				   $"\t75%: {Statistics.Percentile(Timings, .75, true):N3}" +
+				   $"\t90%: {Statistics.Percentile(Timings, .9, true):N3}" +
+				   $"\t99%: {Statistics.Percentile(Timings, .99, true):N3}" +
+				   $"\tMax: {Timings[Timings.Count - 1]:N3}";
 		}
 
 		private static void OnWindowClose(object sender, EventArgs e)
