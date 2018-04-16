@@ -28,6 +28,8 @@ namespace ParallelSteering
 				m_NextVelocities.Add(new Vector2f());
 			}
 
+			ThreadPool.SetMinThreads(Config.THREAD_COUNT, Config.THREAD_COUNT);
+			ThreadPool.SetMaxThreads(Config.THREAD_COUNT, Config.THREAD_COUNT);
 			m_EndEvents = new AutoResetEvent[Config.THREAD_COUNT];
 
 			int start = 0;
