@@ -136,6 +136,9 @@
     <Content Include="Libraries\OpenTK.dll" />
     <Content Include="Libraries\PriorityQueue.dll" />
     <Content Include="Libraries\QuadTree.dll" />
+    <Content Include="Plotter.py">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
