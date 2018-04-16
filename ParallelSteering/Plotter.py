@@ -1,3 +1,4 @@
+import sys
 import matplotlib as mpl 
 
 ## agg backend is used to create plot as a .png file
@@ -5,13 +6,20 @@ mpl.use('agg')
 
 import matplotlib.pyplot as plt 
 
-def readInDataFile():
-	with open('out.txt', 'r') as f:
+def readInDataFile(file):
+	with open(file, 'r') as f:
 		for line in f.readlines():
 			strs = line.strip().split(',')
 			return list(map(float, strs))
 
-data_to_plot = [readInDataFile()]
+def readInData():
+	data = []
+	for i in range(1, len(sys.argv)):
+		data.append(readInDataFile(sys.argv[i]))
+	return data
+
+
+data_to_plot = readInData()
 
 # Create a figure instance
 fig = plt.figure(1, figsize=(9, 6))
