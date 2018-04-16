@@ -11,7 +11,7 @@ namespace ParallelSteering
 
 		static void Main(string[] args)
 		{
-			VideoMode mode = new VideoMode(1440, 1440);
+			VideoMode mode = new VideoMode(920, 920);
 			RenderWindow window = new RenderWindow(mode, "Parallel Steering");
 			
 			window.SetFramerateLimit(60);
@@ -30,7 +30,6 @@ namespace ParallelSteering
 
 				if (Closed)
 				{
-					control.Dispose();
 					break;
 				}
 

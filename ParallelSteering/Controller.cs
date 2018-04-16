@@ -7,7 +7,7 @@ using SFQuadTree;
 
 namespace ParallelSteering
 {
-	public class Controller : IDisposable
+	public class Controller
 	{
 		private const float FIXED_DELTA_TIME = (1f / 60f);
 		private readonly List<Boid> m_Boids = new List<Boid>();
@@ -74,11 +74,6 @@ namespace ParallelSteering
 			RenderStates states = RenderStates.Default;
 			states.Transform.Scale(Config.PIXELS_PER_METER, Config.PIXELS_PER_METER);
 			m_Renderer.Draw(m_RenderTarget, states);
-		}
-
-		public void Dispose()
-		{
-			m_Steering?.Dispose();
 		}
 	}
 }

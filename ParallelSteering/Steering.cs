@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using SFML.Graphics;
 using SFML.System;
+using SFQuadTree;
 
 namespace ParallelSteering
 {
