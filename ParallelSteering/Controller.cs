@@ -35,7 +35,6 @@ namespace ParallelSteering
 			{
 				Boid b = new Boid();
 				b.Position = new Vector2f((float) (r.NextDouble() * width), (float) (r.NextDouble() * height));
-				b.Velocity = new Vector2f((float) (r.NextDouble() - r.NextDouble()), (float) (r.NextDouble() - r.NextDouble()));
 				b.MaxVelocity = 20f;
 				m_Boids.Add(b);
 
