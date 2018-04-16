@@ -101,6 +101,11 @@ namespace ParallelSteering
 					m_OutputTextFile = args[i + 1];
 					i++;
 				}
+				else if (args[i] == "-numThreads")
+				{
+					Config.THREAD_COUNT = int.Parse(args[i + 1]);
+					i++;
+				}
 			}
 		}
 
