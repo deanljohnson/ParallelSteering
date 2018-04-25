@@ -69,7 +69,7 @@ namespace ParallelSteering
 			where T : Transformable
 		{
 			int count = 0;
-			float x = 0, y = 0;
+			float x = self.Position.X, y = self.Position.Y;
 
 			for (int i = 0; i < others.Count; i++)
 			{
@@ -89,7 +89,7 @@ namespace ParallelSteering
 			where T : Transformable
 		{
 			int count = 0;
-			float x = 0, y = 0;
+			float x = self.Position.X, y = self.Position.Y;
 
 			for (int i = 0; i < others.Count; i++)
 			{
